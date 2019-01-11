@@ -1,38 +1,28 @@
 'use strict';
 
-// Application Dependencies
-require('dotenv').config();
 const express = require('express');
-const pg = require('pg');
+const modelFinder = require('../middleware/model-finder.js');
+const swaggerUI = require('swagger-ui-express');
+const router = express.Router();
+const handleError = require('./middleware/handleError');
 const superagent = require('superagent');
-const methodOverride = require('method-override');
+const Book = require('./models/Book');
+const getBookshelves = require('./lib/getBookshelves');
+const createShelf = require('./lib/createShelf');
+const pg = require('pg');
+const notFound = require('./middleware/404');
+const DataModel = require('./models/model');
 
-// Application Setup
 const app = express();
-const PORT = process.env.PORT || 3000;
+router.param('model', modelFinder);
 
-// Database Setup
-const client = new pg.Client(process.env.DATABASE_URL);
-client.connect();
-client.on('error', err => console.error(err));
+const swaggerDocs = require('../../docs/swagger.json');
 
-// Application Middleware
-app.use(express.urlencoded({extended:true}));
-app.use(express.static('public'));
+//lets you access swagger docs on line
+router.use('/api/v1/doc/', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
-app.use(methodOverride((request, response) => {
-  if (request.body && typeof request.body === 'object' && '_method' in request.body) {
-    // look in urlencoded POST bodies and delete it
-    let method = request.body._method;
-    delete request.body._method;
-    return method;
-  }
-}))
 
-// Set the view engine for server-side templating
-app.set('view engine', 'ejs');
-
-// API Routes
+// ROUTES
 app.get('/', getBooks);
 app.post('/searches', createSearch);
 app.get('/searches/new', newSearch);
@@ -41,26 +31,18 @@ app.post('/books', createBook);
 app.put('/books/:id', updateBook);
 app.delete('/books/:id', deleteBook);
 
-app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 
-app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+const client = new pg.Client(process.env.DATABASE_URL);
+client.connect();
+client.on('error', err => console.error(err));
 
-// HELPER FUNCTIONS
-function Book(info) {
-  let placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
+app.get('*', notFound);
 
-  this.title = info.title || 'No title available';
-  this.author = info.authors[0] || 'No authors available';
-  this.isbn = info.industryIdentifiers ? `ISBN_13 ${info.industryIdentifiers[0].identifier}` : 'No ISBN available';
-  this.image_url = info.imageLinks ? info.imageLinks.smallThumbnail : placeholderImage;
-  this.description = info.description || 'No description available';
-  this.id = info.industryIdentifiers ? `${info.industryIdentifiers[0].identifier}` : '';
-}
+// FUNCTIONS
 
 function getBooks(request, response) {
-  let SQL = 'SELECT * FROM books;';
-
-  return client.query(SQL)
+  let model = new DataModel();
+  model.get()
     .then(results => {
       if(results.rows.rowCount === 0) {
         response.render('pages/searches/new');
@@ -87,6 +69,7 @@ function newSearch(request, response) {
   response.render('pages/searches/new');
 }
 
+
 function getBook(request, response) {
   getBookshelves()
     .then(shelves => {
@@ -96,34 +79,6 @@ function getBook(request, response) {
       client.query(SQL, values)
         .then(result => response.render('pages/books/show', {book: result.rows[0], bookshelves: shelves.rows}))
         .catch(err => handleError(err, response));
-    })
-}
-
-function getBookshelves() {
-  // let SQL = 'SELECT DISTINCT bookshelf FROM books ORDER BY bookshelf;';
-  let SQL = 'SELECT * FROM bookshelves ORDER BY name;';
-
-  return client.query(SQL);
-}
-
-function createShelf(shelf) {
-  let normalizedShelf = shelf.toLowerCase();
-  let SQL1 = `SELECT id from bookshelves where name=$1;`;
-  let values1 = [normalizedShelf];
-
-  return client.query(SQL1, values1)
-    .then(results => {
-      if(results.rowCount) {
-        return results.rows[0].id;
-      } else {
-        let INSERT = `INSERT INTO bookshelves(name) VALUES($1) RETURNING id;`;
-        let insertValues = [shelf];
-
-        return client.query(INSERT, insertValues)
-          .then(results => {
-            return results.rows[0].id;
-          })
-      }
     })
 }
 
@@ -159,8 +114,4 @@ function deleteBook(request, response) {
   return client.query(SQL, values)
     .then(response.redirect('/'))
     .catch(err => handleError(err, response));
-}
-
-function handleError(error, response) {
-  response.render('pages/error', {error: error});
 }
