@@ -3,14 +3,35 @@
 // Application Dependencies
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
+
 //const methodOverride = require('method-override');
+
+// Esoteric Resources
+const errorHandler = require( './middleware/handleError.js');
+const notFound = require( './middleware/404.js' );
+const apiRouter = require('./routes');
+require('./models/booksDataModel');
 
 // Application Setup
 const app = express();
 
+// App Level MW
+app.use(cors());
+//app.use(morgan('dev'));
+
+app.use(express.json());
+
 // Application Middleware
 app.use(express.urlencoded({extended:true}));
 app.use(express.static('public'));
+
+// Routes
+app.use(apiRouter);
+
+// Catchalls
+app.use('*', notFound);
+app.use(errorHandler);
 
 // app.use(methodOverride((request, response) => {
 //   if (request.body && typeof request.body === 'object' && '_method' in request.body) {
