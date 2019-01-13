@@ -1,6 +1,5 @@
 'use strict';
 
-const books = require('../models/Books');
 const getRenderableBook = require('../lib/getRenderableBook');
 const handleError = require('../middleware/handleError');
 const superagent = require('superagent');
@@ -25,8 +24,7 @@ module.exports = function createSearch(request, response) {
           // id: info.industryIdentifiers ? `${info.industryIdentifiers[0].identifier}` : '',
         };
         
-        console.log({book});
-        books.post(book);
+        // console.log({book});
         return book;
       })
     })

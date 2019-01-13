@@ -10,7 +10,7 @@ const methodOverride = require('method-override');
 const errorHandler = require( './middleware/handleError.js');
 const notFound = require( './middleware/404.js' );
 const apiRouter = require('./routes');
-require('./models/Books');
+//require('./models/Books.'+process.env.DB);
 
 // Application Setup
 const app = express();

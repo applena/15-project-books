@@ -8,7 +8,7 @@ const booksSchema = mongoose.Schema({
   isbn: { type: String, required: false},
   image_url: {type: String, required: false},
   description: { type: String, required: false },
-  id: { type: String, required: false },
+  //id: { type: String, required: false },
   bookshelf: {type: String, required: false},
   bookshelf_id: {type: String, required: false}
 });

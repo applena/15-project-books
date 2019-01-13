@@ -1,6 +1,6 @@
 'use strict';
 
-const books = require('../models/Books');
+const books = require('../models/Books.'+process.env.DB);
 const handleError = require('../middleware/handleError');
 
 module.exports = function deleteBook(request, response) {

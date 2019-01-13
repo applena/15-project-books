@@ -22,7 +22,14 @@ class DataModel {
    */
   get(_id) {
     let queryObject = _id ? {_id} : {};
-    return this.schema.find(queryObject);
+    return this.schema.find(queryObject)
+      .then(results => {
+        return results.map(book => {
+          book.id = book._id;
+          delete book._id;
+          return book;
+        })
+      });
   }
   
 

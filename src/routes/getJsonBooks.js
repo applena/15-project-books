@@ -1,6 +1,6 @@
 'use strict';
 
-const books = require('../models/Books');
+const books = require('../models/Books.'+process.env.DB);
 
 module.exports = (request, response) => {
   books.get()
