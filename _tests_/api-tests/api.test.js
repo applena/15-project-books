@@ -7,7 +7,6 @@ process.env.DBMOCK = true;
 
 const rootDir = process.cwd();
 const supergoose = require('../supergoose.js');
-const supertest = require('supertest');
 
 // now when app requires mocked resources, it will load the mocks
 const {server} = require(`${rootDir}/src/app.js`);
@@ -18,6 +17,8 @@ const mockRequest = supergoose.server(server);
 
 beforeAll(supergoose.startDB);
 afterAll(supergoose.stopDB);
+
+let bookObj = {"image_url":"http://test.url", "title":"bob", "author":"bobby", "isbn":5, "description":"bob does stuff"};
 
 describe('api endpoints', () => {
   describe('errors', () => {
@@ -42,31 +43,59 @@ describe('api endpoints', () => {
   
     });
   })
-  it('gets all books when .get() is called', () => {
+  it('gets all books when .get() is called', (done) => {
     return mockRequest
       .get('/')
       .then(results => {
         expect(results.status).toBe(200);
+        done();
       });
   });
 
-  it('gets a specific book by id', () => {
+  let bookid;
+  it ('adds an entry to the db', (done) => {
     return mockRequest
-      .get('/')
+      .post('/books')
+      .send(bookObj)
+      .then(request => {
+        let location = request.headers.location.split('/');
+        bookid = location[location.length-1];
+        expect(request.status).toBe(302);
+        done();
+      })
+
+  });
+
+  it('gets an entry by id', (done) => {
+
+    return mockRequest
+      .get('/books/'+bookid)
       .then(results => {
         expect(results.status).toBe(200);
+        done();
+      });
+  })
+
+  it('updates an entry', (done) => {
+    bookObj._method = 'put';
+    return mockRequest
+      .post('/books/'+bookid)
+      .send(bookObj)
+      .then(request => {
+        expect(request.status).toBe(302);
+        done();
       });
   });
 
-  describe('.post(entry)', () => {
+  it('deletes an entry', (done) => {
 
-  });
-
-  describe('.put(id, entry)', () => {
-
-  });
-
-  describe('.delete(id)', () => {
-
+    mockRequest.delete('/books/'+bookid).then((request)=>{
+      expect(request.status).toBe(302);
+      mockRequest.get('/books/'+bookid)
+        .then(results => {
+          expect(results.status).toBe(500);
+          done();
+        });
+    });
   });
 });
