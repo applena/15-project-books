@@ -5,13 +5,13 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
-//const methodOverride = require('method-override');
+const methodOverride = require('method-override');
 
 // Esoteric Resources
 const errorHandler = require( './middleware/handleError.js');
 const notFound = require( './middleware/404.js' );
 const apiRouter = require('./routes');
-require('./models/mongo/Books');
+require('./models/Books');
 
 // Application Setup
 const app = express();
@@ -25,6 +25,14 @@ app.use(express.json());
 // Application Middleware
 app.use(express.urlencoded({extended:true}));
 app.use(express.static('public'));
+app.use(methodOverride((request) => {
+  if (request.body && typeof request.body === 'object' && '_method' in request.body) {
+    // look in urlencoded POST bodies and delete it
+    let method = request.body._method;
+    delete request.body._method;
+    return method;
+  }
+}))
 
 // Routes
 app.use(apiRouter);
@@ -33,14 +41,6 @@ app.use(apiRouter);
 app.use('*', notFound);
 app.use(errorHandler);
 
-// app.use(methodOverride((request, response) => {
-//   if (request.body && typeof request.body === 'object' && '_method' in request.body) {
-//     // look in urlencoded POST bodies and delete it
-//     let method = request.body._method;
-//     delete request.body._method;
-//     return method;
-//   }
-// }))
 
 // Set the view engine for server-side templating
 app.set('view engine', 'ejs');

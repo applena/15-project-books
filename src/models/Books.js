@@ -1,6 +1,6 @@
 'use strict';
 
-const DataModel = require('./model');
+const DataModel = require('./model.'+process.env.DB);
 const schema = require('./bookSchema');
 const bookshelf = require('./bookshelf');
 

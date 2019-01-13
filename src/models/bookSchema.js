@@ -1,7 +1,6 @@
 'use strict';
 
 const mongoose = require('mongoose');
-//const books = require('../mongo/Books');
 
 const booksSchema = mongoose.Schema({
   title: {type: String, required:false },
@@ -13,13 +12,5 @@ const booksSchema = mongoose.Schema({
   bookshelf: {type: String, required: false},
   bookshelf_id: {type: String, required: false}
 });
-
-// books.pre('save', function(book) {
-//   //when I call a .find, this will run before the querry
-//   try {
-//     this.populate('products');//this will populate the virtual products
-//   }
-//   catch(errors) { console.log('Find Error', errors);}
-// });
 
 module.exports = mongoose.model('books', booksSchema);
