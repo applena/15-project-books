@@ -28,10 +28,10 @@ class DataModel {
    * @returns
    * @memberof DataModel
    */
-  get(id) {
-    // let SQL = 'SELECT * FROM books;';
-    // return client.query(SQL)
-  }
+  // get(id) {
+  //   // let SQL = 'SELECT * FROM books;';
+  //   // return client.query(SQL)
+  // }
 
   // get(id){
   //   getBookshelves()

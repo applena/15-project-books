@@ -17,13 +17,13 @@
           <p>bookshelf: <%= book.bookshelf %></p>     
           <!-- <p>bookshelf: <%= book.bookshelf_id %></p>      -->
           <button id="update-button">Update Details</button>
-          <form action="/books/<%= book._id %>" method="post">
+          <form action="/books/<%= book.id %>" method="post">
             <input type="hidden" name="_method" value="delete">
             <button id="delete-button">Delete Book</button>
           </form>
       </section>
       <section>
-        <form id="update-form" class="hide-me" action="/books/<%= book._id %>" method="post">
+        <form id="update-form" class="hide-me" action="/books/<%= book.id %>" method="post">
           <input type="hidden" name="_method" value="put">
           <input type="text" name="title" value="<%= book.title %>">
           <input type="text" name="author" value="<%= book.author %>">

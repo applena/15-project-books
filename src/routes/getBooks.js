@@ -6,6 +6,7 @@ const getRenderableBook = require('../lib/getRenderableBook');
 module.exports = function getBooks(request, response, next) {
   books.get()
     .then( data => {
+      console.log('getBooks',{data});
       if(!data.length) {
         return response.render('pages/searches/new');
       } 

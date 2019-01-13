@@ -1,12 +1,12 @@
 ![CF](http://i.imgur.com/7v5ASc8.png) LAB
 =================================================
 
-## Project Name
+## Book App
 
-### Author: Student/Group Name
+### Author: Lena Eivy
 
 ### Links and Resources
-* [repo](http://xyz.com)
+* [repo](https://github.com/applena/15-project-books)
 * [travis](http://xyz.com)
 * [back-end](http://xyz.com) (when applicable)
 * [front-end](http://xyz.com) (when applicable)
@@ -27,7 +27,7 @@ Usage Notes or examples
 
 ### Setup
 #### `.env` requirements
-* `PORT` - Port Number
+* `PORT` - 3001
 * `MONGODB_URI` - URL to the running mongo instance/db
 
 #### Running the app

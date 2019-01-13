@@ -1,5 +1,6 @@
 'use strict';
 
+const client = require('../lib/sql');
 
 /**
  * class representing a mongo model
@@ -21,8 +22,11 @@ class DataModel {
    * @memberof DataModel
    */
   get(_id) {
-    let queryObject = _id ? {_id} : {};
-    return this.schema.find(queryObject);
+    let SQL = 'SELECT * FROM books' + (_id ? ' WHERE id=$1' : '') + ';';
+    return client.query(SQL, _id ? [_id] : undefined)
+      .then(results => {
+        return results.rows;
+      });
   }
   
 
@@ -34,10 +38,15 @@ class DataModel {
    * @memberof DataModel
    */
   post(entry) {
-    let newRecord = new this.schema(entry);
-    return newRecord.save();
+    let {title, author, isbn, image_url, description} = entry;
+    let SQL = 'INSERT INTO books(title, author, isbn, image_url, description, bookshelf_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING id;';
+    let values = [title, author, isbn, image_url, description];
+
+    client.query(SQL, values)
+      .then(result => result);
   }
 
+  
   /**
    * repleaces a record in the database
    *
@@ -47,7 +56,15 @@ class DataModel {
    * @memberof DataModel
    */
   put(_id, entry) {
-    return this.schema.updateOne({_id}, entry);
+
+    let {title, author, isbn, image_url, description, bookshelf_id} = entry;
+    // let SQL = `UPDATE books SET title=$1, author=$2, isbn=$3, image_url=$4, description=$5, bookshelf=$6 WHERE id=$7;`;
+    let SQL = `UPDATE books SET title=$1, author=$2, isbn=$3, image_url=$4, description=$5, bookshelf_id=$6 WHERE id=$7;`;
+    let values = [title, author, isbn, image_url, description, bookshelf_id, _id];
+  
+    return client.query(SQL, values)
+      .then(results => results.rows)
+      .catch(console.error);
   }
 
 
@@ -59,7 +76,10 @@ class DataModel {
    * @memberof DataModel
    */
   delete(_id) {
-    return this.schema.deleteOne({_id});
+    let SQL = 'DELETE FROM books WHERE id=$1;';
+    let values = [_id];
+  
+    return client.query(SQL, values)
   }
 
 }

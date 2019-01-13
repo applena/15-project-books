@@ -22,7 +22,7 @@ class Books extends DataModel {
     return bookshelf.getByName(entry.bookshelf)
       .then(results => {
         if(results.length){
-          entry.bookshelf_id = results._id;
+          entry.bookshelf_id = results.id;
           delete entry.bookshelf;
           let newRecord = new this.schema(entry);
           return newRecord.save();
@@ -30,7 +30,7 @@ class Books extends DataModel {
 
         return bookshelf.post({name:entry.bookshelf})
           .then(results => {
-            entry.bookshelf_id = results._id;
+            entry.bookshelf_id = results.id;
             delete entry.bookshelf;
             let newRecord = new this.schema(entry);
             return newRecord.save();
