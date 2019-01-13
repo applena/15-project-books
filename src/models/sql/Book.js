@@ -14,6 +14,4 @@ class Book {
     this.id = info.industryIdentifiers ? `${info.industryIdentifiers[0].identifier}` : '';
   }
 }
-
-
 module.exports = Book;

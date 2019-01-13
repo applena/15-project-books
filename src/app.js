@@ -11,7 +11,7 @@ const cors = require('cors');
 const errorHandler = require( './middleware/handleError.js');
 const notFound = require( './middleware/404.js' );
 const apiRouter = require('./routes');
-require('./models/booksDataModel');
+require('./models/mongo/Books');
 
 // Application Setup
 const app = express();
