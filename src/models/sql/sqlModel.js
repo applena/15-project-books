@@ -1,12 +1,12 @@
 'use strict';
 
-const pg = require('pg');
+// const pg = require('pg');
 // const superagent = require('superagent');
 // const getBookshelves = require('../lib/getBookshelves');
 
-const client = new pg.Client(process.env.DATABASE_URL);
-client.connect();
-client.on('error', err => console.error(err));
+// const client = new pg.Client(process.env.DATABASE_URL);
+// client.connect();
+// client.on('error', err => console.error(err));
 
 
 /**
@@ -28,9 +28,9 @@ class DataModel {
    * @returns
    * @memberof DataModel
    */
-  get() {
-    let SQL = 'SELECT * FROM books;';
-    return client.query(SQL)
+  get(id) {
+    // let SQL = 'SELECT * FROM books;';
+    // return client.query(SQL)
   }
 
   // get(id){
