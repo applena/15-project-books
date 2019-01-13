@@ -2,7 +2,7 @@
 
 const DataModel = require('./model.mongo');
 const schema = require('./bookSchema');
-const bookshelf = require('./bookshelf');
+const bookshelf = require('./Bookshelves');
 
 class Books extends DataModel {
   /**

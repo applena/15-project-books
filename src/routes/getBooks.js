@@ -1,6 +1,6 @@
 'use strict';
 
-const books = require('../models/Books.'+process.env.DB);
+const books = require('../models/Books');
 const getRenderableBook = require('../lib/getRenderableBook');
 
 module.exports = function getBooks(request, response, next) {

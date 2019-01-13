@@ -1,9 +1,9 @@
 'use strict';
 
-const books = require('../models/Books.'+process.env.DB);
+const books = require('../models/Books');
 const getRenderableBook = require('../lib/getRenderableBook');
 const handleError = require('../middleware/handleError');
-const Shelf = require('../models/bookshelf.'+process.env.DB);
+const Shelf = require('../models/Bookshelves');
 
 module.exports = function getBook(request, response) {
   // expects an array with one object in it
