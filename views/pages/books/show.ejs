@@ -7,7 +7,7 @@
   <body>
     <%- include('../../layout/header') %>
     <main>
-      <%- include('detail', {book: book}) %>
+      <!-- <%- include('detail', {book: book}) %> -->
       <section class="book-container detail-view">
           <img src=<%= book.image_url %>>
           <h3><%= book.title %></h3>
@@ -38,7 +38,7 @@
             %>
               <!-- <option value="<%= shelf.bookshelf %>" <%= selected %> > -->
               <option value="<%= shelf.id %>" <%= selected %> >
-                <%= shelf.bookshelf %>
+                <%= shelf.name %>
               </option>
             <% }) %>
           </select>
