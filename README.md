@@ -8,39 +8,111 @@
 ### Links and Resources
 * [repo](https://github.com/applena/15-project-books)
 * [travis](http://xyz.com)
-* [back-end](http://xyz.com) (when applicable)
-* [front-end](http://xyz.com) (when applicable)
+* [front-end](https://eivy-lab15-book-app.herokuapp.com/) (when applicable)
 
 #### Documentation
-* [swagger](http://xyz.com) (API assignments only)
-* [jsdoc](http://xyz.com) (All assignments)
+* [swagger](http://localhost:3001/docs/) (API assignments only)
+* [jsdoc](http://localhost:3001/jsdocs/) (All assignments)
 
 ### Modules
-#### `modulename.js`
+#### `getRenderableBook.js`
 ##### Exported Values and Methods
 
-###### `foo(thing) -> string`
-Usage Notes or examples
+###### `getRenderableBook(book) -> object`
+returns a book object that is renderable into the page
 
-###### `bar(array) -> array`
-Usage Notes or examples
+#### `Books.mongo.js`
+##### Exported Values and Methods
+
+###### `Books.mongo() -> string`
+books class that models books data works with mongo
+
+#### Book.sql.js`
+##### Exported Values and Methods
+
+###### `Books.sql() -> string`
+books class that works with sql database
+
+#### `bookSchema.js`
+##### Exported Values and Methods
+
+###### `booksSchema() -> string`
+A mongo schema for the book object
+
+#### `bookshleves.mongo.js`
+##### Exported Values and Methods
+
+###### `bookshelves() -> string`
+mongo model for the bookshelves
+
+#### `bookshelves.sql().js`
+##### Exported Values and Methods
+
+###### `bookshelves.sql() -> string`
+sql model for bookshelves
+
+#### `delete.books.id.js`
+##### Exported Values and Methods
+
+###### `delete.books.id.js -> object`
+deletes a book
+
+#### `get.books.id.js`
+##### Exported Values and Methods
+
+###### `get.books.id() -> string`
+gets a book by id
+
+#### get.searches.new.js`
+##### Exported Values and Methods
+
+###### `get.searches.new -> string`
+returns a search from google books
+
+#### `get json books.js`
+##### Exported Values and Methods
+
+###### `get json books -> string`
+return books in json format
+
+#### `post.books.js`
+##### Exported Values and Methods
+
+###### `post.books -> string`
+adds a book to the DB
+
+#### `put.books().js`
+##### Exported Values and Methods
+
+###### `put.books() -> string`
+updates a book from the database
+
 
 ### Setup
 #### `.env` requirements
 * `PORT` - 3001
-* `MONGODB_URI` - URL to the running mongo instance/db
+* `MONGODB_URI` - `mongodb://localhost:27017`
 
 #### Running the app
 * `npm start`
-* Endpoint: `/foo/bar/`
-  * Returns a JSON object with abc in it.
-* Endpoint: `/bing/zing/`
-  * Returns a JSON object with xyz in it.
+* Endpoint: `/`
+  * Returns a list of books
+* Endpoint: `/books`
+  * Returns a JSON object with books in it.
+* Endpoint: `/books:id`
+  * renders a detailed book page by id.
+* Endpoint: `/searches/new`
+  * Returns a page where user can search for books by title or author.
+* Endpoint: `/searches`
+  * Returns a list of books that match the criteria provided
+
+* to run the app:
+- run `npm start` in one terminal
+- in another terminal run `mongod` to run your  mongo db
+  - make sure you are using mongo db in your .env file (or use SQL if you prefer)
+- open `http://localhost:3001/` to run the app in your browser
   
 #### Tests
-* How do you run tests?
-* What assertions were made?
-* What assertions need to be / should be made?
+* to run the test: `npm test`
+* asserting that the paths connect and do the things that they are supposed to do
 
-#### UML
-Link to an image of the UML for your application and response to events

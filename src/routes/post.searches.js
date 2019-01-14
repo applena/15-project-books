@@ -4,6 +4,9 @@ const getRenderableBook = require('../lib/getRenderableBook');
 const handleError = require('../middleware/handleError');
 const superagent = require('superagent');
 
+/** 
+ * calls a google Books Api and retrieves a list of books based on title or author
+*/
 module.exports = function createSearch(request, response) {
   let url = 'https://www.googleapis.com/books/v1/volumes?q=';
 

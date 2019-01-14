@@ -8,7 +8,7 @@
     "test": "jest --verbose --coverage",
     "test-watch": "jest --watchAll --verbose --coverage",
     "start": "node index.js",
-    "doc": "jsdoc **/*.js -d doc"
+    "doc": "jsdoc src/**/*.js -d docs/jsdocs"
   },
   "keywords": [],
   "author": "Code Fellows, LLC",
@@ -24,7 +24,8 @@
     "nodemon": "1.18.9",
     "pg": "^7.3.0",
     "superagent": "^3.8.3",
-    "supertest": "3.3.0"
+    "supertest": "3.3.0",
+    "swagger-ui-express": "4.0.2"
   },
   "devDependencies": {
     "eslint": "5.12.0",

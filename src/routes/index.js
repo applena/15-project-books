@@ -1,13 +1,10 @@
 'use strict';
 
 const express = require('express');
-//const swaggerUI = require('swagger-ui-express');
 const router = express.Router();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocs = require('../../docs/swagger.json');
 
-//const swaggerDocs = require('../../docs/swagger.json');
-
-//lets you access swagger docs on line
-//router.use('/api/v1/doc/', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 // ROUTES
 
@@ -22,5 +19,9 @@ router.delete('/books/:id', require('./delete.books.id'));
 // Searches
 router.get('/searches/new', require('./get.searches.new'));
 router.post('/searches', require('./post.searches'));
+
+// Swagger
+router.use('/docs', swaggerUi.serve);
+router.get('/docs', swaggerUi.setup(swaggerDocs));
 
 module.exports = router;

@@ -3,6 +3,9 @@
 const books = require('../models/Books');
 const getRenderableBook = require('../lib/getRenderableBook');
 
+/** 
+ * gets all the books in the database
+*/
 module.exports = function getBooks(request, response, next) {
   books.get()
     .then( data => {

@@ -4,6 +4,15 @@ const DataModel = require('./model.mongo');
 const schema = require('./bookSchema');
 const bookshelf = require('./Bookshelves');
 
+
+
+/**
+ *class that models the book object
+ *
+ * @class Books
+ * @extends {DataModel}
+ * @module Models
+ */
 class Books extends DataModel {
   /**
    *

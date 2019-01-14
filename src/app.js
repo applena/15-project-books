@@ -35,6 +35,8 @@ app.use(methodOverride((request) => {
 // Routes
 app.use(apiRouter);
 
+app.use('/jsdocs', express.static('jsdocs'));
+
 // Catchalls
 app.use('*', notFound);
 app.use(errorHandler);

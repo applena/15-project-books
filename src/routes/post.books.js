@@ -3,6 +3,9 @@
 const books = require('../models/Books');
 const handleError = require('../middleware/handleError');
 
+/** 
+ * puts a book record in the database
+*/
 module.exports = function createBook(request, response) {
   // expects the record that was just added to the database
   books.post(request.body)

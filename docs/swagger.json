@@ -1,0 +1,335 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Lab 15 - RESTFUL API for BOOK APP",
+    "version": "1.0.0",
+    "title": "Book App",
+    "contact": {
+      "email": "applena@gmail.com"
+    }
+  },
+  "host": "localhost:3001",
+  "schemes": [
+    "http"
+  ],
+  "basePath": "/",
+  "paths": {
+    "/books": {
+      "get": {
+        "tags": [
+          "books"
+        ],
+        "summary": "gets all the books from a google book API call",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Books"
+              }
+            }
+          },
+          "400": {
+            "description": "User Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "books"
+        ],
+        "summary": "Add a book data object",
+        "operationId": "addBook",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Book object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Books"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/books/{id}": {
+      "get": {
+        "tags": [
+          "books"
+        ],
+        "summary": "Finds a book by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Book id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "books"
+        ],
+        "summary": "Update an existing Category",
+        "operationId": "updateCategory",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Book object that needs to be added to the page",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BookUpdate"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Book id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Category not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "books"
+        ],
+        "summary": "Deletes a book by id",
+        "operationId": "deleteBook",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Book id to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Book not found"
+          }
+        }
+      }
+    },
+    "/searches/new": {
+      "get": {
+        "tags": [
+          "searches/new"
+        ],
+        "summary": "gets all books from an API search",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Books"
+              }
+            }
+          },
+          "400": {
+            "description": "User Error"
+          }
+        }
+      }
+    },
+    "/searches": {
+      "post": {
+        "tags": [
+          "searches"
+        ],
+        "summary": "Adds a book object from the search to the db",
+        "operationId": "addProduct",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Product object that needs to be added to the store",
+            "schema": {
+              "$ref": "#/definitions/Bookshelves"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Books": {
+      "type": "object",
+      "required": [
+        "title",
+        "author",
+        "isbn",
+        "image_url",
+        "description",
+        "bookshelf"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string",
+          "example": "Bob"
+        },
+        "author": {
+          "type": "string",
+          "example": "Billy-Bob"
+        },
+        "isbn": {
+          "type": "string",
+          "example": "132088ud"
+        },
+        "image_url": {
+          "type": "string",
+          "example": "http://test.url"
+        },
+        "description": {
+          "type": "string",
+          "example": "Billy-Bob is the billiest bob of them all"
+        },
+        "bookshelf": {
+          "type": "string",
+          "example": "fiction"
+        }
+      }
+    },
+    "BookUpdate": {
+      "type": "object",
+      "required": [
+        "title",
+        "author",
+        "isbn",
+        "image_url",
+        "description",
+        "bookshelf"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string",
+          "example": "Bob"
+        },
+        "author": {
+          "type": "string",
+          "example": "Billy-Bob"
+        },
+        "isbn": {
+          "type": "string",
+          "example": "132088ud"
+        },
+        "image_url": {
+          "type": "string",
+          "example": "http://test.url"
+        },
+        "description": {
+          "type": "string",
+          "example": "Billy-Bob is the billiest bob of them all"
+        },
+        "bookshelf": {
+          "type": "string",
+          "example": "fiction"
+        },
+        "_method": {
+          "type": "string",
+          "example": "put"
+        }
+      }
+    },
+    "Bookshelves": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "fiction"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}

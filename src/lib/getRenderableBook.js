@@ -1,3 +1,7 @@
+/**
+ * funtion that takes in a json book object and returns a formatted book object
+ * @param {Object} book 
+ */
 module.exports = (book)=>{
   if(!book){throw 'book inforamtion needed';}
   book.image_url = book.image_url||'https://i.imgur.com/J5LVHEL.jpg';

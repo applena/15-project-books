@@ -90,10 +90,10 @@ describe('api endpoints', () => {
   it('deletes an entry', (done) => {
 
     mockRequest.delete('/books/'+bookid).then((request)=>{
-      expect(request.status).toBe(302);
+      expect(request.status).toBe(200);
       mockRequest.get('/books/'+bookid)
         .then(results => {
-          expect(results.status).toBe(500);
+          expect(results.status).toBe(404);
           done();
         });
     });

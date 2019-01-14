@@ -3,6 +3,12 @@
 const client = require('../lib/sql');
 const bookshelf = require('./bookshelf.sql');
 
+
+/**
+ *class that models a book object
+ *
+ * @class Books
+ */
 class Books {
 
   /**
