@@ -15,12 +15,16 @@ module.exports = function createSearch(request, response) {
 
   superagent.get(url)
     .then(apiResponse => {
+      console.log('search returned',apiResponse.body.items.length, 'results');
       return apiResponse.body.items.map(bookResult => {
         let info = bookResult.volumeInfo;
         // construct sparse dataset to save into the db
+        // if(!info.authors){
+        //   console.log('strange result with no authors defined', info);
+        // }
         let book = {
           title: info.title,
-          author: info.authors[0],
+          author: info.authors && info.authors.length ? info.authors[0] : undefined,
           isbn: info.industryIdentifiers ? `ISBN_13 ${info.industryIdentifiers[0].identifier}` : undefined,
           image_url: info.imageLinks ? info.imageLinks.smallThumbnail : undefined,
           description: info.description,
